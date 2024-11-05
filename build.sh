@@ -55,17 +55,23 @@ _LINKER_ISSUES=0
 
 for filename in ./extensions/*/bin/* ; do
     echo -e "Checking ${filename}"
-    _LDD_OUTPUT=$(ldd -d -r $filename)
-    if [ $? -ne 0 ] ; then
-        echo -e "${RED}[FATAL] Failed to run ldd against ${filename} ${NOCOLOR}"
-        _LINKER_ISSUES=1
-    else
-        _UNDEFINED_SYMBOLS=$(_tab=$'\t' ; grep 'undefined symbol:' <<< $_LDD_OUTPUT | sed "s/^/$_tab/" | sed "s/^$_tab$//")
-        if [ -n "$_UNDEFINED_SYMBOLS" ] ; then
-            echo -e "${RED}[FATAL] Found undefined symbols in ${filename}: ${NOCOLOR}\n${_UNDEFINED_SYMBOLS}"
-            _LINKER_ISSUES=1
-        fi
-    fi
+    case "$filename" in
+        "*.wasm")
+            ;;
+        "*.so*")
+            _LDD_OUTPUT=$(ldd -d -r $filename)
+
+            if [ $? -ne 0 ] ; then
+                echo -e "${RED}[FATAL] Failed to run ldd against ${filename} ${NOCOLOR}"
+                _LINKER_ISSUES=1
+            else
+                _UNDEFINED_SYMBOLS=$(_tab=$'\t' ; grep 'undefined symbol:' <<< $_LDD_OUTPUT | sed "s/^/$_tab/" | sed "s/^$_tab$//")
+                if [ -n "$_UNDEFINED_SYMBOLS" ] ; then
+                    echo -e "${RED}[FATAL] Found undefined symbols in ${filename}: ${NOCOLOR}\n${_UNDEFINED_SYMBOLS}"
+                    _LINKER_ISSUES=1
+                fi
+            fi
+    esac
 done
 
 if [ $_LINKER_ISSUES -ne 0 ] ; then
