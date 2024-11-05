@@ -1,0 +1,35 @@
+# Objects.
+.scons-cache/
+*.os
+*.o
+
+# SConstruct
+.sconf_temp
+.sconsign.dblite
+*.pyc
+
+# MacOS
+.DS_Store
+
+# Godot 4+ specific ignores
+.godot/
+android/
+build/
+
+/compile_commands.json
+/extension_api.json
+/godot
+/godot-mono
+/data
+
+.cache/clangd
+
+extensions/*/bin
+extensions/*/src/gen
+
+.godot-path
+
+*.code-workspace
+
+*.wasm
+*.so
