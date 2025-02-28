@@ -1,0 +1,47 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug GDExtension in Player (Linux)",
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "build-linux-debug",
+            "program": "./godot",
+            "args": [
+                "--verbose",
+                "--path",
+                "${workspaceFolder}/demo"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug GDExtension in Editor (Linux)",
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "build-linux-debug",
+            "program": "./godot",
+            "args": [
+                "--verbose",
+                "--editor",
+                "--path",
+                "${workspaceFolder}/demo"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false
+        },
+        {
+            "name": "GDScript: Launch Project",
+            "type": "godot",
+            "request": "launch",
+            "project": "${workspaceFolder}",
+            "debug_collisions": false,
+            "debug_paths": false,
+            "debug_navigation": false,
+            "additional_options": ""
+        }
+    ]
+}

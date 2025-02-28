@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-linux-debug",
+            "command": "scons -j12 use_llvm=yes target=template_debug debug_symbols=yes platform=linux",
+            "type": "shell",
+            "group": "build"
+        },
+        {
+            "label": "build-linux-release",
+            "command": "scons -j12 use_llvm=yes target=template_release debug_symbols=yes platform=linux",
+            "type": "shell",
+            "group": "build"
+        },
+        {
+            "label": "build-web-debug",
+            "command": "scons -j12 use_llvm=yes target=template_debug debug_symbols=yes platform=web",
+            "type": "shell",
+            "group": "build"
+        },
+        {
+            "label": "build-web-release",
+            "command": "scons -j12 use_llvm=yes target=template_release debug_symbols=yes platform=web",
+            "type": "shell",
+            "group": "build"
+        }
+    ]
+}

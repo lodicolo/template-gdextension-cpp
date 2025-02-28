@@ -2,8 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://ldgwuhpue6sr" path="res://icon.svg" id="1_uxt5y"]
 
-[node name="SampleNode2D" type="SampleNode2D"]
-position = Vector2(-0.838671, -0.544638)
+[node name="sample" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SampleNode2D" type="SampleNode2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SampleNode2D"]
 texture = ExtResource("1_uxt5y")

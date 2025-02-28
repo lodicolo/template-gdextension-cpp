@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ./project
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NOCOLOR='\033[0m'
@@ -31,6 +33,36 @@ case "$_build_mode" in
 esac
 
 PATH_REPO_ROOT="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")")"
+PATH_EXTENSIONS_OUTPUT="$PATH_REPO_ROOT/$PROJECT_NAME/extensions"
+PATH_VENDORS="$PATH_REPO_ROOT/vendor"
+PATH_GODOT_CPP="$PATH_VENDORS/godot-cpp"
+
+#region Copy extensions .gdextension files into project
+
+for extension_relative_path in extensions/* ; do
+    extension_name=$(basename $extension_relative_path)
+    extension_out_path=$PATH_EXTENSIONS_OUTPUT/$extension_name
+    if ! [ -d $extension_out_path ] ; then
+        echo "Creating output path for $extension_name: $extension_out_path"
+        mkdir -p $extension_out_path
+    fi
+
+    echo "Copying *.gdextension(.uid) file(s) for $extension_name..."
+    cp $extension_relative_path/*.gdextension* $extension_out_path
+done
+
+#endregion Copy extensions .gdextension files into project
+
+#region Build godot-cpp
+
+PREVIOUS_CWD=$(pwd)
+
+cd $PATH_GODOT_CPP
+scons -j12 platform=$_platform use_llvm=yes custom_api_file=../../extension_api.json $_scons_params
+
+cd $PREVIOUS_CWD
+
+#endregion Build godot-cpp
 
 #region Build extensions (scons)
 
