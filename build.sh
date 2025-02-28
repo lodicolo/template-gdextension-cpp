@@ -40,7 +40,7 @@ if [ "$_platform" != web ]; then
     _scons_params="$_scons_params bits=64"
 fi
 
-if ! scons --no-cache -j12 use_llvm=yes target=template_$_build_mode debug_symbols=yes platform=$_platform $_scons_params ; then
+if ! scons -j12 use_llvm=yes debug_symbols=yes target=template_$_build_mode platform=$_platform $_scons_params ; then
     echo -e "${RED}[FATAL] Error compiling extensions"
     exit 1
 fi
