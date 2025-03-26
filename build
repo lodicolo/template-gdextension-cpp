@@ -7,6 +7,9 @@ GREEN='\033[0;32m'
 NOCOLOR='\033[0m'
 
 _script_name="$(basename -- "${BASH_SOURCE[0]}")"
+_scons_params=""
+_target_cores=$(($(nproc) * 3 / 4))
+_target_cores=$(( _target_cores < 1 ? 1 : _target_cores ))
 
 _platform=$1
 if [ "$_platform" = "" ]; then
@@ -58,7 +61,7 @@ done
 PREVIOUS_CWD=$(pwd)
 
 cd $PATH_GODOT_CPP
-scons -j12 platform=$_platform use_llvm=yes custom_api_file=../../extension_api.json $_scons_params
+scons -j$_target_cores platform=$_platform use_llvm=yes custom_api_file=../../extension_api.json $_scons_params
 
 cd $PREVIOUS_CWD
 
@@ -72,7 +75,7 @@ if [ "$_platform" != web ]; then
     _scons_params="$_scons_params bits=64"
 fi
 
-if ! scons -j12 use_llvm=yes debug_symbols=yes target=template_$_build_mode platform=$_platform $_scons_params ; then
+if ! scons -j$_target_cores compiledb=yes dev_build=yes use_llvm=yes debug_symbols=yes target=template_$_build_mode platform=$_platform $_scons_params ; then
     echo -e "${RED}[FATAL] Error compiling extensions"
     exit 1
 fi
